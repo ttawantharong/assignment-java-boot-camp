@@ -25,7 +25,7 @@ class ProductControllersTest {
 
     @Test
     @DisplayName("user search with \"NMD\" should return 2 record")
-    void successCase() {
+    void getProductsFound() {
         Product product = new Product(1,"adidas ORIGINALS NMD R1 Shoes Men Black G55575", 4600.00,44,2576.00);
         Product product2 = new Product(2,"Adidas รองเท้า OG Men NMD_R1 Primeblue GZ9256", 4600.00,10,4140.00);
 
@@ -45,16 +45,9 @@ class ProductControllersTest {
 
     @Test
     @DisplayName("Users search for products that are not available in the system should return message \"Product iphone not found\"")
-    void failCase() {
-        Product product = new Product(1,"adidas ORIGINALS NMD R1 Shoes Men Black G55575", 4600.00,44,2576.00);
-        Product product2 = new Product(2,"Adidas รองเท้า OG Men NMD_R1 Primeblue GZ9256", 4600.00,10,4140.00);
-
-        List<Product> products = new ArrayList<Product>();
-        products.add(product);
-        products.add(product2);
-
+    void getProductsNotFound() {
         // Arrange
-        when(productRepository.findByTitleContaining("NMD")).thenReturn(Optional.of(products));
+        when(productRepository.findByTitleContaining("NMD")).thenReturn(Optional.empty());
         // Act
         MessageResponse result = testRestTemplate.getForObject("/products?productTitle=iphone",MessageResponse.class);
 
@@ -64,7 +57,7 @@ class ProductControllersTest {
 
     @Test
     @DisplayName("get product by id should return one product and product id must be equal param")
-    void getProductFoundProduct() {
+    void getProductFound() {
         Product product = new Product(2,"Adidas รองเท้า OG Men NMD_R1 Primeblue GZ9256", 4600.00,10,4140.00);
 
         // Arrange
@@ -77,7 +70,7 @@ class ProductControllersTest {
 
     @Test
     @DisplayName("get product by id should return one product and product id must be equal param")
-    void getProductNotFoundProduct() {
+    void getProductNotFound() {
 
         // Arrange
         when(productRepository.findById(1)).thenReturn(Optional.empty());
