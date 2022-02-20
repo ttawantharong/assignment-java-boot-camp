@@ -61,4 +61,29 @@ class ProductControllersTest {
         // Verify
         assertEquals("Product iphone not found", result.getMessage());
     }
+
+    @Test
+    @DisplayName("get product by id should return one product and product id must be equal param")
+    void getProductFoundProduct() {
+        Product product = new Product(2,"Adidas รองเท้า OG Men NMD_R1 Primeblue GZ9256", 4600.00,10,4140.00);
+
+        // Arrange
+        when(productRepository.findById(2)).thenReturn(Optional.of(product));
+        // Act
+        Product result = testRestTemplate.getForObject("/product/2",Product.class);
+        // Verify
+        assertEquals(2, result.getId());
+    }
+
+    @Test
+    @DisplayName("get product by id should return one product and product id must be equal param")
+    void getProductNotFoundProduct() {
+
+        // Arrange
+        when(productRepository.findById(1)).thenReturn(Optional.empty());
+        // Act
+        MessageResponse result = testRestTemplate.getForObject("/product/1",MessageResponse.class);
+        // Verify
+        assertEquals("Product id 1 not found", result.getMessage());
+    }
 }

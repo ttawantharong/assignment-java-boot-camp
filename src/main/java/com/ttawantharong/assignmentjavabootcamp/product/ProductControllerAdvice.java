@@ -16,4 +16,11 @@ public class ProductControllerAdvice {
     public MessageResponse ProductNotFound(ProductNotFoundException e){
         return new MessageResponse("Product " + e.getMessage() + " not found");
     }
+
+    @ExceptionHandler(ProductIdNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public MessageResponse ProductIdNotFound(ProductIdNotFoundException e){
+        return new MessageResponse("Product id " + e.getMessage() + " not found");
+    }
 }
